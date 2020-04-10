@@ -10,13 +10,18 @@ def get_indices_of_item_weights(weights, length, limit):
     ht = HashTable(16)
 
     for index, weight in enumerate(weights):
-        hash_table_insert(ht, key=weight, value=index)
+        if hash_table_retrieve(ht, weight) is None:
+            hash_table_insert(ht, key=weight, value=index)
+        else:
+            hash_table_insert(ht, key=-1, value=index)
 
     for weight in weights:
         if hash_table_retrieve(ht, limit - weight) is not None:
             index1 = hash_table_retrieve(ht, weight)
-            hash_table_remove(ht, weight)
-            index2 = hash_table_retrieve(ht, limit - weight)
+            if limit - weight == weight:
+                index2 = hash_table_retrieve(ht, -1)
+            else:
+                index2 = hash_table_retrieve(ht, limit - weight)
             if index1 < index2:
                 return (index2, index1)
             elif index1 > index2:

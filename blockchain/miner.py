@@ -22,9 +22,11 @@ def proof_of_work(last_proof):
 
     start = timer()
 
+    last_hash = hashlib.sha256(str(last_proof).encode()).hexdigest()
     print("Searching for next proof")
     proof = 0
-    #  TODO: Your code here
+    while not valid_proof(last_hash, proof):
+        proof += random.choice([3,5,7])
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
@@ -39,8 +41,9 @@ def valid_proof(last_hash, proof):
     IE:  last_hash: ...AE912345, new hash 12345E88...
     """
 
-    # TODO: Your code here!
-    pass
+    last_five = last_hash[-5:]
+    new_hash = hashlib.sha256(str(proof).encode()).hexdigest()
+    return last_five == new_hash[:5]
 
 
 if __name__ == '__main__':

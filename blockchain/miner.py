@@ -3,7 +3,7 @@ import requests
 
 import sys
 
-from uuid import uuid4
+# from uuid import uuid4
 
 from timeit import default_timer as timer
 
@@ -24,9 +24,9 @@ def proof_of_work(last_proof):
 
     last_hash = hashlib.sha256(str(last_proof).encode()).hexdigest()
     print("Searching for next proof")
-    proof = 0
+    proof = 100000
     while not valid_proof(last_hash, proof):
-        proof += random.choice([3,5,7])
+        proof += random.choice([3, 5, 7])
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
